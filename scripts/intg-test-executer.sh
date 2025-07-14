@@ -28,7 +28,7 @@ OUTPUTS_DIR=$2
 PROP_FILE="${INPUTS_DIR}/deployment.properties"
 WSO2InstanceName=$(grep -w "WSO2InstanceName" ${PROP_FILE} | cut -d'=' -f2 | cut -d"/" -f3)
 OperatingSystem=$(grep -w "OperatingSystem" ${PROP_FILE} | cut -d'=' -f2)
-PRODUCT_VERSION=$(grep -w "ProductVersion" ${PROP_FILE}| cut -d'=' -f2 | cut -d'-' -f2)
+PRODUCT_VERSION=$(grep -w "ProductVersion" ${PROP_FILE}| cut -d'=' -f2)
 PRODUCT_NAME=$(grep -w "Product" ${PROP_FILE}| cut -d'=' -f2 | cut -d'-' -f1)
 WUM_USERNAME=$(grep -w "WUMUsername" ${PROP_FILE} | cut -d'=' -f2)
 WUM_PASSWORD=$(grep -w "WUMPassword" ${PROP_FILE} | cut -d'=' -f2)
@@ -52,7 +52,7 @@ fi
 
 wget -q ${SCRIPT_LOCATION}
 
-if [[ ${OperatingSystem} == "Ubuntu" ]]; 
+if [[ ${OperatingSystem} == "Ubuntu" || ${OperatingSystem} == "Ubuntu-ARM" ]]; 
 then
     instanceUser="ubuntu"
 elif [[ ${OperatingSystem} == "CentOS" ]]; 
@@ -61,6 +61,7 @@ then
 else
     instanceUser="ec2-user"
 fi
+
 aws s3 cp 's3://integration-testgrid-resources/testgrid-key.pem' ${keyFileLocation}
 chmod 400 ${keyFileLocation}
 
